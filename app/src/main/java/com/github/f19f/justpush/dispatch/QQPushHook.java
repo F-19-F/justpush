@@ -33,30 +33,31 @@ public class QQPushHook {
                 return XposedBridge.invokeOriginalMethod(param.method, param.thisObject, param.args);
             }
         });
-        findAndHookMethod("android.content.ContextWrapper", lpparam.classLoader, "sendBroadcast", Intent.class, new XC_MethodReplacement() {
-            @Override
-            protected Object replaceHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-
-                Intent i = (Intent) param.args[0];
-                String action = i.getAction();
-                if (action != null) {
-                    switch (action) {
-//                      到后台时停止QQ对应的所有服务，配合禁止自启动可以实现后台只有pushservice在跑
-                        case "mqq.intent.action.QQ_BACKGROUND":
-                            ContextWrapper contextWrapper = (ContextWrapper) param.thisObject;
-                            ActivityManager manager = (ActivityManager) contextWrapper.getSystemService(Context.ACTIVITY_SERVICE);
-                            int id = android.os.Process.myPid();
-                            for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-                                if(service.pid!=id){
-                                    android.os.Process.killProcess(service.pid);
-                                }
-                            }
-                            System.exit(0);
-                            break;
-                    }
-                }
-                return XposedBridge.invokeOriginalMethod(param.method,param.thisObject,param.args);
-            }
-        });
+//        findAndHookMethod("android.content.ContextWrapper", lpparam.classLoader, "sendBroadcast", Intent.class, new XC_MethodReplacement() {
+//            @Override
+//            protected Object replaceHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
+//
+//                Intent i = (Intent) param.args[0];
+//                String action = i.getAction();
+//                if (action != null) {
+//                    switch (action) {
+////                      到后台时停止所有服务
+//                        case "mqq.intent.action.QQ_BACKGROUND":
+//                            ContextWrapper contextWrapper = (ContextWrapper) param.thisObject;
+//                            ActivityManager manager = (ActivityManager) contextWrapper.getSystemService(Context.ACTIVITY_SERVICE);
+//                            int id = android.os.Process.myPid();
+//                            for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+//                                if(service.pid!=id){
+//                                    android.os.Process.killProcess(service.pid);
+//                                }
+//                            }
+//                            System.exit(0);
+//                            break;
+//                    }
+//                }
+//                printStack();
+//                return XposedBridge.invokeOriginalMethod(param.method,param.thisObject,param.args);
+//            }
+//        });
     }
 }

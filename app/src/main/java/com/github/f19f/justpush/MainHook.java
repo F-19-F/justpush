@@ -1,4 +1,5 @@
 package com.github.f19f.justpush;
+import com.github.f19f.justpush.dispatch.MilletHook;
 import com.github.f19f.justpush.dispatch.QQPushHook;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -12,6 +13,8 @@ public class MainHook implements IXposedHookLoadPackage{
             case "com.tencent.mobileqq":
                 QQPushHook.handleLoadPackage(lpparam);
                 break;
+            case "com.miui.powerkeeper":
+                MilletHook.handleLoadPackage(lpparam);
             default:
                 break;
         }
