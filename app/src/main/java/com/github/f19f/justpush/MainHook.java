@@ -11,7 +11,7 @@ public class MainHook implements IXposedHookLoadPackage{
         String packageName = lpparam.packageName;
         switch (packageName){
             case "com.tencent.mobileqq":
-                QQPushHook.handleLoadPackage(lpparam);
+                new QQPushHook().handleLoadPackage(lpparam);
                 break;
             case "com.miui.powerkeeper":
                 MilletHook.handleLoadPackage(lpparam);
